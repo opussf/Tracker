@@ -1,0 +1,10 @@
+## Title: Item Tracker
+## Interface: @INTERFACE@
+## Notes: Track item counts (@VERSION@)
+## Author: opussf
+## Version: @VERSION@
+## Description: Track item counts
+## SavedVariables: Tracker_data
+
+Tracker.lua
+Tracker.xml
