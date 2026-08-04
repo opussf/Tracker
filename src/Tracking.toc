@@ -4,7 +4,7 @@
 ## Author: opussf
 ## Version: @VERSION@
 ## Description: Track item counts
-## SavedVariables: Tracker_data
+## SavedVariables: TRACKER_data
 
 Tracker.lua
 Tracker.xml
