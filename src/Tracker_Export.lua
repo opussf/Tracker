@@ -86,7 +86,8 @@ function ExportJSON()
 	local outTable = {}
 	for itemID, itemData in sorted_pairs( TRACKER_data ) do
 		local itemOut = {}
-		table.insert( itemOut, string.format( '\t\t{"name": "%s"', itemData.name ) )
+		table.insert( itemOut, string.format( '\t\t{"id": %s', itemID ) )
+		table.insert( itemOut, string.format( '\t\t"name": "%s"', itemData.name ) )
 		table.insert( itemOut, string.format( '\t\t"link": "%s"', itemData.link ) )
 		local totalsOut = {}
 		local dayOut = {}
