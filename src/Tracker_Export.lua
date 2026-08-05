@@ -88,22 +88,24 @@ function ExportJSON()
 		local itemOut = {}
 		table.insert( itemOut, string.format( '\t\t{"name": "%s"', itemData.name ) )
 		table.insert( itemOut, string.format( '\t\t"link": "%s"', itemData.link ) )
-
+		local totalsOut = {}
+		local dayOut = {}
 		for day, dayData in sorted_pairs( itemData.totals ) do
-			local dayOut = {}
-			table.insert( dayOut, '\t\t"days":' )
-			table.insert( dayOut, string.format( '\t\t\t{"%s": ', day ) )
-			table.insert( dayOut, string.format( '\t\t\t\t{"start": %s', dayData.start ) )
+
+
+			table.insert( dayOut, string.format( '\t\t\t"%s": {\n\t\t\t\t"start": %s', day, dayData.start ) )
 			table.insert( dayOut, string.format( '\t\t\t\t"min": %s', dayData.min ) )
 			table.insert( dayOut, string.format( '\t\t\t\t"max": %s', dayData.max ) )
 			table.insert( dayOut, string.format( '\t\t\t\t"final": %s}', dayData.final ) )
-			table.insert( itemOut, table.concat( dayOut, ",\n" ) )
 		end
+		table.insert( totalsOut, string.format( '%s', table.concat( dayOut, ",\n" ) ) )
+
+		table.insert( itemOut, string.format( '\t\t"totals": {\n%s}', table.concat( totalsOut, ",\n" ) ) )
 
 
-		table.insert( outTable, table.concat( itemOut, ",\n" ) )
+		table.insert( outTable, table.concat( itemOut, ",\n" ).. "}" )
 	end
-	strOut = strOut .. table.concat( outTable, ",\n" )
+	strOut = strOut .. table.concat( outTable, ",\n" ).. "\n\t]\n}}"
 
 	return strOut
 end
