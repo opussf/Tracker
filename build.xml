@@ -1,4 +1,4 @@
-<project name="Tracking" default="package">
+<project name="Tracker" default="package">
 	<!-- version 7.1 -->
 
 	<tstamp/>

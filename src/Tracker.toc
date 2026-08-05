@@ -5,6 +5,7 @@
 ## Version: @VERSION@
 ## Description: Track item counts
 ## SavedVariables: TRACKER_data
+## Category-enUS: Inventory
 
 Tracker.lua
 Tracker.xml
