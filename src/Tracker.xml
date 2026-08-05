@@ -6,7 +6,6 @@ xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 	<Frame name="TRACKER_Frame" frameStrata="BACKGROUND" toplevel="false" enableMouse="false" movable="false" parent="UIParent">
 		<Scripts>
 			<OnLoad>TRACKER.OnLoad();self:Hide()</OnLoad>
-			<OnUpdate>TRACKER.OnUpdate(arg1)</OnUpdate>
 			<OnEvent>TRACKER[event](self, ...)</OnEvent>
 		</Scripts>
 	</Frame>
