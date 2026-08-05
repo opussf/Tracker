@@ -67,9 +67,11 @@ function ExportCSV()
 	for itemID, itemData in sorted_pairs( TRACKER_data ) do
 		row={ itemID, itemData.name }
 
+		local lastValue = ""
 		for day = minDay, maxDay, 86400 do
 			local dayStr = os.date( "%Y%m%d", day )
-			table.insert( row, ( itemData.totals[dayStr] and itemData.totals[dayStr].final or "" ) )
+			lastValue = itemData.totals[dayStr] and itemData.totals[dayStr].final or lastValue
+			table.insert( row, lastValue )
 		end
 
 		table.insert( report, table.concat( row, "," ) )
