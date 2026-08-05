@@ -79,9 +79,38 @@ function ExportCSV()
 	strOut = table.concat( report, "\n" ).."\n"
 	return strOut
 end
+function ExportJSON()
+	strOut = "{\"TrackerData\": {\n"
+	strOut = strOut .. "\t\"items\": [\n"
+
+	local outTable = {}
+	for itemID, itemData in sorted_pairs( TRACKER_data ) do
+		local itemOut = {}
+		table.insert( itemOut, string.format( '\t\t{"name": "%s"', itemData.name ) )
+		table.insert( itemOut, string.format( '\t\t"link": "%s"', itemData.link ) )
+
+		for day, dayData in sorted_pairs( itemData.totals ) do
+			local dayOut = {}
+			table.insert( dayOut, '\t\t"days":' )
+			table.insert( dayOut, string.format( '\t\t\t{"%s": ', day ) )
+			table.insert( dayOut, string.format( '\t\t\t\t{"start": %s', dayData.start ) )
+			table.insert( dayOut, string.format( '\t\t\t\t"min": %s', dayData.min ) )
+			table.insert( dayOut, string.format( '\t\t\t\t"max": %s', dayData.max ) )
+			table.insert( dayOut, string.format( '\t\t\t\t"final": %s}', dayData.final ) )
+			table.insert( itemOut, table.concat( dayOut, ",\n" ) )
+		end
+
+
+		table.insert( outTable, table.concat( itemOut, ",\n" ) )
+	end
+	strOut = strOut .. table.concat( outTable, ",\n" )
+
+	return strOut
+end
 
 functionList = {
-	["csv"] = ExportCSV,
+	["csv"]  = ExportCSV,
+	["json"] = ExportJSON,
 }
 
 func = functionList[string.lower(exportType)]
