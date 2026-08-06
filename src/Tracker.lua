@@ -69,6 +69,25 @@ function TRACKER.command(msg)
 	elseif ( cmd and cmd ~= "" ) then
 		TRACKER.addItem( cmd )
 	else
+		TRACKER.PrintHelp()
+	end
+end
+-------
+function TRACKER.print( msg, showName)
+	-- print to the chat frame
+	-- set showName to false to suppress the addon name printing
+	COLOR_RED = "|cffff0000"
+	COLOR_END = "|r"
+	if (showName == nil) or (showName) then
+		msg = COLOR_RED..TRACKER_MSG_ADDONNAME.."> "..COLOR_END..msg
+	end
+	DEFAULT_CHAT_FRAME:AddMessage( msg )
+end
+function TRACKER.printHelp()
+	TRACKER.print(TRACKER_MSG_ADDONNAME.." by "..TRACKER_MSG_AUTHOR);
+	for cmd, info in pairs(TRACKER.CommandList) do
+		TRACKER.print(string.format("%s %s %s -> %s",
+			SLASH_TRACKER1, cmd, info.help[1], info.help[2]));
 	end
 end
 -------
@@ -103,8 +122,28 @@ function TRACKER.addItem(itemLink)
 		TRACKER.BAG_UPDATE()
 	end
 end
+function TRACKER.list()
+	local today = date("%Y%m%d")
+	for itemID, itemData in pairs(TRACKER_data) do
+		TRACKER.print( itemData.link.." "..itemData.totals[today].final )
+	end
+end
+function TRACKER.rmItem(itenLink)
+	local itemID = TRACKER.getItemIdFromLink(itemLink)
 
+end
 
 TRACKER.CommandList = {
-
+	["help"] = {
+		["func"] = TRACKER.printHelp,
+		["help"] = {"", "Print this help."},
+	},
+	["list"] = {
+		["func"] = TRACKER.list,
+		["help"]= {"", "List tracked items."},
+	},
+	["rm"] = {
+		["func"] = TRACKER.rmItem,
+		["help"] = {"item Link", "Remove item from tracking."}
+	},
 }
