@@ -9,7 +9,6 @@ function parseDayStr(strIn) {
 	const day = Number(strIn.slice(6, 8));
 	return new Date(year, month, day);
 }
-
 function* dateRange(startStr, endStr) {
 	const current = parseDayStr(startStr);
 	const end = parseDayStr(endStr);
@@ -19,7 +18,6 @@ function* dateRange(startStr, endStr) {
 		current.setDate(current.getDate() + 1);
 	}
 }
-
 $scope.formatDay = function(date) {
 	const y = date.getFullYear();
 	const m = String(date.getMonth() + 1).padStart(2, '0');
@@ -29,7 +27,6 @@ $scope.formatDay = function(date) {
 $scope.getTotalsField = function(totals, field, index) {
 	const dayStr = $scope.formatDay($scope.days[index]);
 
-	console.log(totals, field, index, dayStr);
 	return totals[dayStr][field];
 };
 $scope.getTotalsFieldDiff = function(totals, field, index) {
@@ -49,6 +46,56 @@ $scope.getTotalsFieldDiff = function(totals, field, index) {
 		}
 	} else { return "\u00A0"; }  // &nbsp;
 };
+$scope.itemOnClick = function(itemID) {
+	if ($scope.graphID == itemID ) {
+		$scope.graphID = "";
+	} else {
+		$scope.graphID = itemID;
+	}
+	$scope.drawChart(itemID);
+}
+$scope.drawChart = function(itemID) {
+	const item = $scope.items.filter(item => item.id == itemID)[0];
+	itemData = new Array();
+	
+	for (const index in $scope.days) {
+		day = $scope.days[index];
+		dayStr = $scope.formatDay(day);
+		itemData.push( new Array (
+			day, 
+			item.totals[dayStr].min,
+			item.totals[dayStr].start,
+			item.totals[dayStr].final,
+			item.totals[dayStr].max
+		));
+	}
+
+	var dataTable = new google.visualization.DataTable();
+	dataTable.addColumn({ type: 'date', id: 'Date' });
+	dataTable.addColumn({ type: 'number', id: 'min' });
+	dataTable.addColumn({ type: 'number', id: 'open' });
+	dataTable.addColumn({ type: 'number', id: 'close' });
+	dataTable.addColumn({ type: 'number', id: 'max' });
+	dataTable.addRows( itemData );
+
+	var csv = google.visualization.dataTableToCsv(dataTable);
+    console.log(csv);
+
+	var options = {
+		legend: 'none',
+		bar: { groupWidth: '100%' },
+		candlestick: {
+			fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+			risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
+		}
+	};
+
+	var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+	chart.draw(dataTable, options);
+	
+	
+}
+
 
 $scope.loadData = function() {
 	$http.get('Tracker.json?date='+Date.now())
@@ -91,8 +138,6 @@ $scope.loadData = function() {
 								$scope.items[key].totals[prevDayStr].final;
 						}
 					}
-
-					console.log(key, dayStr, item.name);
 				}
 			} );
 
