@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<title>Item Tracker</title>
+<link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
+<link rel="stylesheet" href="Tracker.css" type="text/css"/>
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css"/>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="/js/angular.min.js"></script>
+<script src="/js/moment.js"></script>
+<script src="/js/angular-moment.min.js"></script>
+<script src="Tracker.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+<div class="main" id="TrackerApp" ng-app="TrackerApp" ng-controller="TrackerController">
+<div class='row Tracker-title'>
+<div class='col-sm-6 col-sm-offset-3'>
+<span>Tracked Items</span>
+</div>
+</div> <!-- row -->
+
+<div class='row Tracker-stats'>
+<div class='row Tracker-item-count'>
+<div class='col-sm-3 col-sm-offset-1'>
+{{ (items).length }} items.
+</div>
+<div class='col-sm-2'>Data modified {{dataLastModified | amCalendar}}</div>
+<div class='col-sm-2'>Data loaded {{dataLoadedAt | amCalendar}}</div>
+</div> <!-- row -->
+</div> <!-- row -->
+
+<div class='row Tracker-main'>
+<div class='col-11 col-offset-1'>
+<table border='1'>
+<thead>
+<tr>
+<th><a href ng-click="sortReverse = sortType=='id' ? !sortReverse : false; sortType='id'">ID</a></th>
+<th><a href ng-click="sortReverse = sortType=='name' ? !sortReverse : false; sortType='name'">Name</a></th>
+<th colspan="2" ng-repeat="day in days">{{ day | date:'M/d' }}</th>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="item in items | orderBy:sortType:sortReverse">
+<td>{{item.id}}</td>
+<td>{{item.name}}</td>
+<td ng-repeat-start="day in days">{{getTotalsField(item.totals, "final", $index)}}</td>
+<td ng-repeat-end>{{getTotalsFieldDiff(item.totals,"final", $index)}}</td>
+</tr>
+
+</table>
+</div>
+
+</div> <!-- row Tracker-main -->
+
+
+</div> <!-- main -->
+</div>
+</body>
+</html>
