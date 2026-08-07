@@ -39,7 +39,7 @@
 <tr>
 <th><a href ng-click="sortReverse = sortType=='id' ? !sortReverse : false; sortType='id'">ID</a></th>
 <th><a href ng-click="sortReverse = sortType=='name' ? !sortReverse : false; sortType='name'">Name</a></th>
-<th colspan="2" ng-repeat="day in days">{{ day | date:'M/d' }}</th>
+<th colspan="2" ng-repeat="day in days">{{ day | date:'MMM d' }}</th>
 </tr>
 </thead>
 <tbody>

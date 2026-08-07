@@ -57,7 +57,7 @@ $scope.itemOnClick = function(itemID) {
 $scope.drawChart = function(itemID) {
 	const item = $scope.items.filter(item => item.id == itemID)[0];
 	itemData = new Array();
-	
+
 	for (const index in $scope.days) {
 		day = $scope.days[index];
 		dayStr = $scope.formatDay(day);
@@ -78,11 +78,12 @@ $scope.drawChart = function(itemID) {
 	dataTable.addColumn({ type: 'number', id: 'max' });
 	dataTable.addRows( itemData );
 
-	var csv = google.visualization.dataTableToCsv(dataTable);
-    console.log(csv);
+	// var csv = google.visualization.dataTableToCsv(dataTable);
+    // console.log(csv);
 
 	var options = {
 		legend: 'none',
+		title: item.name,
 		bar: { groupWidth: '100%' },
 		candlestick: {
 			fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
@@ -92,10 +93,8 @@ $scope.drawChart = function(itemID) {
 
 	var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
 	chart.draw(dataTable, options);
-	
-	
-}
 
+}
 
 $scope.loadData = function() {
 	$http.get('Tracker.json?date='+Date.now())
@@ -140,7 +139,12 @@ $scope.loadData = function() {
 					}
 				}
 			} );
-
+		} )
+		.then( function() {
+			console.log($scope.graphID);
+			if ($scope.graphID !== undefined) {
+				$scope.drawChart($scope.graphID);
+			}
 		} )
 };
 
