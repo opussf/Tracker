@@ -47,11 +47,7 @@ $scope.getTotalsFieldDiff = function(totals, field, index) {
 	} else { return "\u00A0"; }  // &nbsp;
 };
 $scope.itemOnClick = function(itemID) {
-	if ($scope.graphID == itemID ) {
-		$scope.graphID = "";
-	} else {
-		$scope.graphID = itemID;
-	}
+	$scope.graphID = itemID;
 	$scope.drawChart(itemID);
 }
 $scope.drawChart = function(itemID) {
@@ -100,6 +96,7 @@ $scope.loadData = function() {
 	$http.get('Tracker.json?date='+Date.now())
 		.then( function( response ) {
 			$scope.items = response.data.TrackerData.items;
+			$scope.minDay = null;
 			$scope.dataLoadedAt = new Date();
 			$scope.dataLastModified = new Date(response.headers("last-modified"));
 

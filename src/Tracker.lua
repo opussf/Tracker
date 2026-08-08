@@ -112,9 +112,6 @@ function TRACKER.addItem(itemLink)
 	local itemID = TRACKER.getItemIdFromLink(itemLink)
 	print(itemID)
 	if itemID and string.len(itemID) > 0 then
-		-- local youHave =  GetItemCount( itemID, true, nil, true ) -- include bank
-		-- local inBags = GetItemCount( itemID, false ) -- only in bags
-		-- local inAccount = C_Item.GetItemCount( itemID, false, false, false, true ) - inBags
 		TRACKER_data[itemID] = TRACKER_data[itemID] or {}
 		local itemName, itemLink = GetItemInfo( itemID )
 		TRACKER_data[itemID].name = itemName
@@ -130,7 +127,7 @@ function TRACKER.list()
 end
 function TRACKER.rmItem(itenLink)
 	local itemID = TRACKER.getItemIdFromLink(itemLink)
-
+	TRACKER_data[itemID] = nil
 end
 
 TRACKER.CommandList = {
