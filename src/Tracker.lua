@@ -25,8 +25,8 @@ function TRACKER.BAG_UPDATE()
 	-- print("TRACKER> BAG_UPDATE")
 	local today = date("%Y%m%d")
 	for itemID, _ in pairs(TRACKER_data) do
-		local youHave =  GetItemCount( itemID, true, nil, true ) -- include bank
-		local inAccount = C_Item.GetItemCount( itemID, false, false, false, true ) - youHave  -- WBB
+		local youHave =  C_Item.GetItemCount( itemID, true, nil, true ) -- include bank, and reagent bank
+		local inAccount = math.max(0, C_Item.GetItemCount( itemID, false, false, false, true ) - youHave) -- WBB
 		TRACKER_data[itemID].players = TRACKER_data[itemID].players or {}
 		TRACKER_data[itemID].players[TRACKER.playerSlug] = ( youHave > 0 and youHave or nil )
 		TRACKER_data[itemID].totals = TRACKER_data[itemID].totals or {}
@@ -46,7 +46,7 @@ end
 ------
 function TRACKER.parseCmd(msg)
 	if msg then
-		local i,c = strmatch(msg, "^(|c.*|r)%s*(%d*)$")
+		local i,c = strmatch(msg, "^(|c.*|r)%s*(%S*)$")
 		if i then  -- i is an item, c is a count or nil
 			return i, c
 		else  -- Not a valid item link
@@ -65,7 +65,7 @@ function TRACKER.command(msg)
 	local cmd, param = TRACKER.parseCmd(msg)
 	local cmdFunc = TRACKER.CommandList[cmd]
 	if cmdFunc then
-		cmdFunc.func(pram)
+		cmdFunc.func(param)
 	elseif ( cmd and cmd ~= "" ) then
 		TRACKER.addItem( cmd )
 	else
@@ -125,7 +125,7 @@ function TRACKER.list()
 		TRACKER.print( itemData.link.." "..itemData.totals[today].final )
 	end
 end
-function TRACKER.rmItem(itenLink)
+function TRACKER.rmItem(itemLink)
 	local itemID = TRACKER.getItemIdFromLink(itemLink)
 	TRACKER_data[itemID] = nil
 end
