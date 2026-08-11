@@ -46,6 +46,11 @@ $scope.getTotalsFieldDiff = function(totals, field, index) {
 		}
 	} else { return "\u00A0"; }  // &nbsp;
 };
+$scope.getDiffClass = function(totals, field, index) {
+	const diff = $scope.getTotalsFieldDiff(totals, field, index);
+	if (diff > 0) return 'bg-increase';
+	if (diff < 0) return 'bg-decrease';
+}
 $scope.itemOnClick = function(itemID) {
 	$scope.graphID = itemID;
 	$scope.drawChart(itemID);
