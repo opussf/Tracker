@@ -286,7 +286,7 @@ gulp.task('watch-deploy', function () {
 })
 
 // Default Task
-gulp.task('default', gulp.parallel('scripts', 'styles', 'html')); // , 'server' ));
+gulp.task('default', gulp.parallel('scripts', 'styles', 'html'));
 gulp.task('local', gulp.parallel('vendor', 'scripts', 'styles', 'html', 'watch', 'serve'));
-gulp.task('deploy', gulp.series('clean', 'default', 'send' ));
+gulp.task('deploy', gulp.series('clean', 'default', 'datafile', 'send' ));
 gulp.task('develop', gulp.series('clean', 'default', 'send', 'watch-deploy' ));
