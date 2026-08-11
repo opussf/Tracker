@@ -30,7 +30,7 @@ $scope.getTotalsField = function(totals, field, index) {
 	return totals[dayStr][field];
 };
 $scope.getTotalsFieldDiff = function(totals, field, index) {
-	if (index==0) {
+	if (index===0) {
 		return '';
 	}
 	const dayStr = $scope.formatDay($scope.days[index]);
@@ -38,7 +38,7 @@ $scope.getTotalsFieldDiff = function(totals, field, index) {
 
 	const diff = totals[dayStr][field] - totals[prevStr][field];
 
-	if (diff != 0) {
+	if (diff !== 0) {
 		if (diff > 0) {
 			return "+"+diff;
 		} else {
@@ -49,9 +49,9 @@ $scope.getTotalsFieldDiff = function(totals, field, index) {
 $scope.itemOnClick = function(itemID) {
 	$scope.graphID = itemID;
 	$scope.drawChart(itemID);
-}
+};
 $scope.drawChart = function(itemID) {
-	const item = $scope.items.filter(item => item.id == itemID)[0];
+	const item = $scope.items.filter(item => item.id === itemID)[0];
 	itemData = new Array();
 
 	for (const index in $scope.days) {
@@ -90,7 +90,7 @@ $scope.drawChart = function(itemID) {
 	var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
 	chart.draw(dataTable, options);
 
-}
+};
 
 $scope.loadData = function() {
 	$http.get('Tracker.json?date='+Date.now())
@@ -142,7 +142,7 @@ $scope.loadData = function() {
 			if ($scope.graphID !== undefined) {
 				$scope.drawChart($scope.graphID);
 			}
-		} )
+		} );
 };
 
 //initial load

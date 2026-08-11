@@ -1,4 +1,8 @@
 .DS_Store
 coverage.xml
 target/
-Rested-cf/
+*-cf/
+
+node_modules/
+dist/
+config.local.json
