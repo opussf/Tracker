@@ -29,28 +29,22 @@ $scope.getTotalsField = function(totals, field, index) {
 
 	return totals[dayStr][field];
 };
-$scope.getTotalsFieldDiff = function(totals, field, index) {
+$scope.getDiffInfo = function(totals, field, index) {
 	if (index===0) {
-		return '';
+		return {};
 	}
 	const dayStr = $scope.formatDay($scope.days[index]);
 	const prevStr = $scope.formatDay($scope.days[index-1]);
 
 	const diff = totals[dayStr][field] - totals[prevStr][field];
+	const value = diff > 0 ? "+"+diff : (diff < 0 ? diff : "\u00A0");  // default is &nbsp;
+	const cname = diff > 0 ? 'bg-increase' : (diff < 0 ? 'bg-decrease' : '');
 
-	if (diff !== 0) {
-		if (diff > 0) {
-			return "+"+diff;
-		} else {
-			return diff;
-		}
-	} else { return "\u00A0"; }  // &nbsp;
+	return {
+		value: value,
+		className: cname
+	};
 };
-$scope.getDiffClass = function(totals, field, index) {
-	const diff = $scope.getTotalsFieldDiff(totals, field, index);
-	if (diff > 0) return 'bg-increase';
-	if (diff < 0) return 'bg-decrease';
-}
 $scope.itemOnClick = function(itemID) {
 	$scope.graphID = itemID;
 	$scope.drawChart(itemID);
