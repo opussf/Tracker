@@ -1,5 +1,7 @@
 .DS_Store
 coverage.xml
 target/
-dist/
 *-cf/
+
+node_modules/
+dist/
