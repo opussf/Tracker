@@ -128,6 +128,14 @@ gulp.task('angular-moment', function() {
     return gulp.src('node_modules/angular-moment/angular-moment.min.js')
         .pipe(gulp.dest('dist/js'));
 });
+gulp.task('font-awesome-css', function() {
+    return gulp.src('node_modules/font-awesome/css/font-awesome.min.css')
+        .pipe(gulp.dest('dist/font-awesome/css'));
+});
+gulp.task('font-awesome-fonts', function () {
+    return gulp.src('node_modules/font-awesome/fonts/**/*')
+        .pipe(gulp.dest('dist/font-awesome/fonts'));
+});
 gulp.task('datafile', function() {
     return new Promise(function (resolve, reject) {
         exec(`lua src/Tracker_Export.lua "${config.WoWAccountPath}" json > /tmp/Tracker.json`,
@@ -144,8 +152,9 @@ gulp.task('datafile', function() {
         });
     });
 });
-gulp.task('vendor', gulp.parallel('angular', 'bootstrap', 'bootstrap-css', 'moment', 'angular-moment', 'datafile'));
-
+gulp.task('vendor', gulp.parallel('angular', 'bootstrap', 'bootstrap-css',
+        'moment', 'angular-moment', 'font-awesome-css', 'font-awesome-fonts',
+        'datafile'));
 
 // Task: Clean the "dist" directory
 gulp.task('clean', function () {
