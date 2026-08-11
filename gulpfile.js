@@ -259,7 +259,7 @@ process.on('SIGINT', () => {
 // gulp.task
 
 gulp.task('send', function () {
-    return gulp.src(['dist/**/*','dist/.*'])
+    return gulp.src('dist/')
         .pipe(rsync({
             root: 'dist',
             hostname: config.deploy.server,
