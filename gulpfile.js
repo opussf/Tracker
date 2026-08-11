@@ -12,7 +12,7 @@ const yargs = require('yargs');
 const git = require('gulp-git');
 const replace = require('gulp-replace');
 const exec = require('child_process').exec;
-// const rsync = require('gulp-rsync');
+const rsync = require('gulp-rsync');
 const del = require('del');
 const eslint = require('gulp-eslint-new');
 const jsValidate = require('gulp-jsvalidate');
@@ -253,8 +253,8 @@ gulp.task('send', function () {
     return gulp.src(['dist/**/*','dist/.*'])
         .pipe(rsync({
             root: 'dist',
-            hostname: 'macmini2',
-            destination: '/Users/user/www/tracker',
+            hostname: config.deploy.server,
+            destination: config.deploy.dest,
             exclude: [".DS_Store"],
             recursive: true,
             silent: false,
@@ -279,5 +279,5 @@ gulp.task('watch-deploy', function () {
 // Default Task
 gulp.task('default', gulp.parallel('scripts', 'styles', 'html')); // , 'server' ));
 gulp.task('local', gulp.parallel('vendor', 'scripts', 'styles', 'html', 'watch', 'serve'));
-gulp.task('deploy', gulp.series('default', 'send' ));
+gulp.task('deploy', gulp.series('clean', 'default', 'send' ));
 gulp.task('develop', gulp.series('clean', 'default', 'send', 'watch-deploy' ));

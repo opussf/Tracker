@@ -31,6 +31,7 @@
 		"gulp-jsvalidate": "^5.0.0",
 		"gulp-remove-logging": "^1.2.0",
 		"gulp-replace": "^1.1.4",
+		"gulp-rsync": "^0.1.0",
 		"gulp-shell": "^0.8.0",
 		"gulp-uglify": "^3.0.2",
 		"moment": "2.17.1",

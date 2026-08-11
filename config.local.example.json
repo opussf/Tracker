@@ -1,3 +1,7 @@
 {
-	"WoWAccountPath": "/Path/To/WoWAccount"
+	"WoWAccountPath": "/Path/To/WoWAccount",
+	"deploy": {
+		"server": "server",
+		"dest": "/Path/To/deploy",
+	}
 }
