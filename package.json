@@ -34,6 +34,7 @@
 		"gulp-rsync": "^0.1.0",
 		"gulp-shell": "^0.8.0",
 		"gulp-uglify": "^3.0.2",
+		"gulp-util": "^3.0.8",
 		"moment": "2.17.1",
 		"yargs": "^17.7.2"
 	}
