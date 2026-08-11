@@ -30,33 +30,6 @@ const paths = {
     scripts:   ['web/js/**/*.js'],
     styles:    ['web/css/**/*.css'],
     html:      ['web/html/*.html'],
-
-    // bootstrap: {
-    //     style: {
-    //         src: 'node_modules/bootstrap/dist/css/bootstrap.css',
-    //         dest: 'dist/css/'
-    //     },
-    //     script: {
-    //         src: 'node_modules/bootstrap/dist/js/bootstrap.min.js',
-    //         dest: 'dist/js/'
-    //     }
-    // },
-    // fontawesome: {
-    //     style: {
-    //         src: 'node_modules/font-awesome/css/font-awesome.css',
-    //         dest: 'dist/font-awesome/css/'
-    //     },
-    //     fonts: {
-    //         src: 'node_modules/font-awesome/fonts/*',
-    //         dest: 'dist/font-awesome/fonts/'
-    //     }
-    // },
-    // angular: {
-    //     script: {
-    //         src: ['node_modules/angular/angular.min.js','node_modules/angular-route/angular-route.min.js','node_modules/angular-cookies/angular-cookies.min.js'],
-    //         dest: 'dist/js/'
-    //     },
-    // },
 };
 
 global.gitVersion = 'local';
@@ -143,6 +116,10 @@ gulp.task('bootstrap', function() {
     return gulp.src('node_modules/bootstrap/dist/js/bootstrap.min.js')
         .pipe(gulp.dest('dist/js'));
 });
+gulp.task('bootstrap-css', function() {
+    return gulp.src('node_modules/bootstrap/dist/css/bootstrap.css')
+        .pipe(gulp.dest('dist/css'));
+});
 gulp.task('moment', function() {
     return gulp.src('node_modules/moment/moment.js')
         .pipe(gulp.dest('dist/js'));
@@ -167,7 +144,7 @@ gulp.task('datafile', function() {
         });
     });
 });
-gulp.task('vendor', gulp.parallel('angular', 'bootstrap', 'moment', 'angular-moment', 'datafile'));
+gulp.task('vendor', gulp.parallel('angular', 'bootstrap', 'bootstrap-css', 'moment', 'angular-moment', 'datafile'));
 
 
 // Task: Clean the "dist" directory
@@ -181,28 +158,6 @@ gulp.task('watch', function () {
     gulp.watch(paths.styles, gulp.series('styles'));
     gulp.watch(paths.html, gulp.series('html'));
 });
-
-// function bootstrap() {
-//     gulp.src(paths.bootstrap.style.src)
-//         .pipe(cleanCSS())
-//         .pipe(gulp.dest(paths.bootstrap.style.dest));
-//     return gulp.src(paths.bootstrap.script.src)
-//         .pipe(gulp.dest(paths.bootstrap.script.dest));
-// }
-
-// function fontawesome() {
-//     gulp.src(paths.fontawesome.fonts.src)
-//         .pipe(gulp.dest(paths.fontawesome.fonts.dest));
-//     return gulp.src(paths.fontawesome.style.src)
-//         .pipe(cleanCSS())
-//         .pipe(concat('font-awesome.min.css'))
-//         .pipe(gulp.dest(paths.fontawesome.style.dest));
-// }
-
-// function angular() {
-//     return gulp.src(paths.angular.script.src)
-//         .pipe(gulp.dest(paths.angular.script.dest));
-// }
 
 // Task: Live Reload Server
 gulp.task('serve', function () {
