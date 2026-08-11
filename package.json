@@ -15,6 +15,9 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.4",
+		"angular": "1.6.2",
+		"angular-moment": "1.0.1",
+		"bootstrap": "3.3.7",
 		"del": "^5.1.0",
 		"eslint": "^10.3.0",
 		"gulp": "^5.0.1",
@@ -28,7 +31,9 @@
 		"gulp-jsvalidate": "^5.0.0",
 		"gulp-remove-logging": "^1.2.0",
 		"gulp-replace": "^1.1.4",
+		"gulp-shell": "^0.8.0",
 		"gulp-uglify": "^3.0.2",
+		"moment": "2.17.1",
 		"yargs": "^17.7.2"
 	}
 }

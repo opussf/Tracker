@@ -1,4 +1,4 @@
-const projectName = "corewars";
+const projectName = "Tracker";
 
 const gulp = require('gulp');
 const concat = require('gulp-concat');
@@ -11,11 +11,14 @@ const gulpIf = require('gulp-if');
 const yargs = require('yargs');
 const git = require('gulp-git');
 const replace = require('gulp-replace');
+const exec = require('child_process').exec;
 // const rsync = require('gulp-rsync');
 const del = require('del');
 const eslint = require('gulp-eslint-new');
 const jsValidate = require('gulp-jsvalidate');
 const removeLogging = require('gulp-remove-logging');  // remove console.log
+
+const config = require('./config.local.json');
 
 const argv = yargs.argv;
 let isProd = argv.prod; // Use `--prod` flag to enable production mode
@@ -129,8 +132,42 @@ gulp.task('html-files', function () {
         .pipe(gulp.dest('dist'))
         .pipe(connect.reload());
 });
-
 gulp.task('html', gulp.series('gitInfo', 'html-files'));
+
+// vendor scripts
+gulp.task('angular', function() {
+    return gulp.src('node_modules/angular/angular.min.js')
+        .pipe(gulp.dest('dist/js'));
+});
+gulp.task('bootstrap', function() {
+    return gulp.src('node_modules/bootstrap/dist/js/bootstrap.min.js')
+        .pipe(gulp.dest('dist/js'));
+});
+gulp.task('moment', function() {
+    return gulp.src('node_modules/moment/moment.js')
+        .pipe(gulp.dest('dist/js'));
+});
+gulp.task('angular-moment', function() {
+    return gulp.src('node_modules/angular-moment/angular-moment.min.js')
+        .pipe(gulp.dest('dist/js'));
+});
+gulp.task('datafile', function() {
+    return new Promise(function (resolve, reject) {
+        exec(`lua src/Tracker_Export.lua "${config.WoWAccountPath}" json > /tmp/Tracker.json`,
+                function (err, stdout, stderr) {
+            if (err) {
+                console.error(stderr);
+                return reject(err);
+            }
+
+            gulp.src('/tmp/Tracker.json')
+                .pipe(gulp.dest('dist'))
+                .on('end', resolve)
+                .on('error', reject);
+        });
+    });
+});
+gulp.task('vendor', gulp.parallel('angular', 'bootstrap', 'moment', 'angular-moment', 'datafile'));
 
 
 // Task: Clean the "dist" directory
@@ -180,12 +217,6 @@ gulp.task('serve', function () {
         port: 8080,
         middleware: function () {
             return [
-                function (req, res, next) {
-                    if (req.url.startsWith('/Corewars/')) {
-                        req.url = req.url.replace('/Corewars/', '/');
-                    }
-                    next();
-                },
                 function(req, res, next) {
                     if (req.url.indexOf('/server') === 0) {
                         console.log(`Proxying to PHP server: ${req.url}`); // Log the proxy action
@@ -292,6 +323,6 @@ gulp.task('watch-deploy', function () {
 
 // Default Task
 gulp.task('default', gulp.parallel('scripts', 'styles', 'html')); // , 'server' ));
-gulp.task('local', gulp.parallel('scripts', 'styles', 'html', 'watch', 'serve'));
+gulp.task('local', gulp.parallel('vendor', 'scripts', 'styles', 'html', 'watch', 'serve'));
 gulp.task('deploy', gulp.series('default', 'send' ));
 gulp.task('develop', gulp.series('clean', 'default', 'send', 'watch-deploy' ));
