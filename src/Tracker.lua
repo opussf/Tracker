@@ -28,7 +28,10 @@ function TRACKER.BAG_UPDATE()
 		local youHave =  C_Item.GetItemCount( itemID, true, nil, true ) -- include bank, and reagent bank
 		local inAccount = math.max(0, C_Item.GetItemCount( itemID, false, false, false, true ) - youHave) -- WBB
 		local uses = C_Item.GetItemCount( itemID, false, true )
-		youHave = math.max( youHave, uses )
+		if uses > youHave then
+			youHave = uses
+			TRACKER_data[itemID].uses = true
+		end
 		TRACKER_data[itemID].players = TRACKER_data[itemID].players or {}
 		TRACKER_data[itemID].players[TRACKER.playerSlug] = ( youHave > 0 and youHave or nil )
 		TRACKER_data[itemID].totals = TRACKER_data[itemID].totals or {}
@@ -107,7 +110,7 @@ function TRACKER.getItemIdFromLink(itemLink)
 	-- returns just the integer itemID
 	-- itemLink can be a full link, or just "item:999999999"
 	if itemLink then
-		return strmatch( itemLink, "item:(%d*)" ) or strmatch( itemLink, "i:(%d*)" )
+		return tonumber(strmatch( itemLink, "item:(%d*)" ) or strmatch( itemLink, "i:(%d*)" ))
 	end
 end
 function TRACKER.addItem(itemLink)
