@@ -89,6 +89,9 @@ function ExportJSON()
 		table.insert( itemOut, string.format( '\t\t{"id": %s', itemID ) )
 		table.insert( itemOut, string.format( '\t\t"name": "%s"', itemData.name ) )
 		table.insert( itemOut, string.format( '\t\t"link": "%s"', itemData.link ) )
+		if itemData.uses then
+			table.insert( itemOut, '\t\t"uses": true' )
+		end
 		local totalsOut = {}
 		local dayOut = {}
 		for day, dayData in sorted_pairs( itemData.totals ) do

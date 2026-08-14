@@ -19,7 +19,7 @@
 		<div class="main" id="TrackerApp" ng-app="TrackerApp" ng-controller="TrackerController">
 			<div class='row Tracker-title'>
 				<div class='col-sm-6 col-sm-offset-3'>
-					<span>Tracked Items</span>
+					<span>Tracked Items -- V@VERSION@</span>
 				</div>
 			</div> <!-- row -->
 
@@ -57,7 +57,9 @@
 						<tbody>
 							<tr ng-repeat="item in items | orderBy:sortType:sortReverse | filter:itemFilter">
 								<td>{{item.id}}</td>
-								<td><a href ng-click="itemOnClick(item.id)">{{item.name}}</a></td>
+								<td><a href ng-click="itemOnClick(item.id)">{{item.name}}</a>
+									<i class='fa fa-flask' ng-show='item.uses'></i>
+								</td>
 								<td ng-repeat-start="day in days">{{getTotalsField(item.totals, "final", $index)}}</td>
 								<td ng-repeat-end
 									ng-init="diffInfo = getDiffInfo(item.totals, 'final', $index)"
