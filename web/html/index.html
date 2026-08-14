@@ -45,12 +45,14 @@
 								<th><a href ng-click="sortReverse = sortType=='name' ? !sortReverse : false; sortType='name'">Name
 									<span ng-show="sortType=='name' && !sortReverse" class="fa fa-caret-up"></span>
 									<span ng-show="sortType=='name' && sortReverse" class="fa fa-caret-down"></span>
-									</a></th>
+									</a>
+									<input type='text' ng-model='itemFilter'/>
+								</th>
 								<th colspan="2" ng-repeat="day in days">{{ day | date:'MMM d' }}</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="item in items | orderBy:sortType:sortReverse">
+							<tr ng-repeat="item in items | orderBy:sortType:sortReverse | filter:itemFilter">
 								<td>{{item.id}}</td>
 								<td><a href ng-click="itemOnClick(item.id)">{{item.name}}</a></td>
 								<td ng-repeat-start="day in days">{{getTotalsField(item.totals, "final", $index)}}</td>
