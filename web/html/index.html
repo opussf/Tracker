@@ -46,7 +46,10 @@
 									<span ng-show="sortType=='name' && !sortReverse" class="fa fa-caret-up"></span>
 									<span ng-show="sortType=='name' && sortReverse" class="fa fa-caret-down"></span>
 									</a>
-									<input type='text' ng-model='itemFilter'/>
+									<input type='text' ng-model='itemFilter' placeholder='Filter...' ng-keyup='$event.keyCode === 27 && ( itemFilter="")'/>
+									<span class='filter-clear' ng-click='itemFilter=""' ng-show='itemFilter'>
+										<i class='fa fa-times'></i>
+									</span>
 								</th>
 								<th colspan="2" ng-repeat="day in days">{{ day | date:'MMM d' }}</th>
 							</tr>
