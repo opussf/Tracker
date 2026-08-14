@@ -27,6 +27,8 @@ function TRACKER.BAG_UPDATE()
 	for itemID, _ in pairs(TRACKER_data) do
 		local youHave =  C_Item.GetItemCount( itemID, true, nil, true ) -- include bank, and reagent bank
 		local inAccount = math.max(0, C_Item.GetItemCount( itemID, false, false, false, true ) - youHave) -- WBB
+		local uses = C_Item.GetItemCount( itemID, false, true )
+		youHave = math.max( youHave, uses )
 		TRACKER_data[itemID].players = TRACKER_data[itemID].players or {}
 		TRACKER_data[itemID].players[TRACKER.playerSlug] = ( youHave > 0 and youHave or nil )
 		TRACKER_data[itemID].totals = TRACKER_data[itemID].totals or {}
