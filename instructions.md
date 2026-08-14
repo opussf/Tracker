@@ -20,5 +20,6 @@ To Build:
 ## Deploy to server
 
 * Needs the `config.local.json`
+* Setup server info in `~/.ssh/config` to use SSH key
 
 `npx gulp deploy`
