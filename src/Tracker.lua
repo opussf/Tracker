@@ -29,9 +29,9 @@ function TRACKER.BAG_UPDATE()
 		local inAccount = math.max(0, C_Item.GetItemCount( itemID, false, false, false, true ) - youHave) -- WBB
 		local uses = C_Item.GetItemCount( itemID, false, true )
 		if uses > youHave then
-			youHave = uses
 			TRACKER_data[itemID].uses = true
 		end
+		youHave = math.max( youHave, uses )
 		TRACKER_data[itemID].players = TRACKER_data[itemID].players or {}
 		TRACKER_data[itemID].players[TRACKER.playerSlug] = ( youHave > 0 and youHave or nil )
 		TRACKER_data[itemID].totals = TRACKER_data[itemID].totals or {}
@@ -115,12 +115,12 @@ function TRACKER.getItemIdFromLink(itemLink)
 end
 function TRACKER.addItem(itemLink)
 	local itemID = TRACKER.getItemIdFromLink(itemLink)
-	print(itemID)
 	if itemID and string.len(itemID) > 0 then
 		TRACKER_data[itemID] = TRACKER_data[itemID] or {}
 		local itemName, itemLink = GetItemInfo( itemID )
 		TRACKER_data[itemID].name = itemName
 		TRACKER_data[itemID].link = itemLink
+		TRACKER.print( "Tracking: "..itemLink )
 		TRACKER.BAG_UPDATE()
 	end
 end

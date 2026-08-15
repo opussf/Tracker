@@ -75,7 +75,7 @@ gulp.task('scripts', function () {
         .pipe(gulpIf(!isProd, concat(`${projectName}.js`)))
         .pipe(gulp.dest('dist'))
         .pipe(gulpIf(isProd, uglify()))
-        .pipe(gulpIf(isProd, gulp.dest('dist')))
+        .pipe(gulp.dest('dist'))
         .pipe(connect.reload())
         .on('error', function( err ) {
             console.error("Error:", err.message);
