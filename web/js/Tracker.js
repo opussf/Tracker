@@ -29,14 +29,10 @@ $scope.getTotalsField = function(totals, field, index) {
 
 	return totals[dayStr][field];
 };
-$scope.getDiffInfo = function(totals, field, index) {
-	if (index===0) {
-		return {};
-	}
+$scope.getDiffInfo = function(totals, index) {
 	const dayStr = $scope.formatDay($scope.days[index]);
-	const prevStr = $scope.formatDay($scope.days[index-1]);
 
-	const diff = totals[dayStr][field] - totals[prevStr][field];
+	const diff = totals[dayStr].final - totals[dayStr].start;
 	const value = diff > 0 ? "+"+diff : (diff < 0 ? diff : "\u00A0");  // default is &nbsp;
 	const cname = diff > 0 ? 'bg-increase' : (diff < 0 ? 'bg-decrease' : '');
 

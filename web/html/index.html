@@ -62,7 +62,7 @@
 								</td>
 								<td ng-repeat-start="day in days">{{getTotalsField(item.totals, "final", $index)}}</td>
 								<td ng-repeat-end
-									ng-init="diffInfo = getDiffInfo(item.totals, 'final', $index)"
+									ng-init="diffInfo = getDiffInfo(item.totals, $index)"
 									ng-class="diffInfo.className">{{diffInfo.value}}</td>
 							</tr>
 						</tbody>
