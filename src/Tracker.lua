@@ -117,7 +117,7 @@ function TRACKER.addItem(itemLink)
 	local itemID = TRACKER.getItemIdFromLink(itemLink)
 	if itemID and string.len(itemID) > 0 then
 		TRACKER_data[itemID] = TRACKER_data[itemID] or {}
-		local itemName, itemLink = GetItemInfo( itemID )
+		local itemName, itemLink = C_Item.GetItemInfo( itemID )
 		TRACKER_data[itemID].name = itemName
 		TRACKER_data[itemID].link = itemLink
 		TRACKER.print( "Tracking: "..itemLink )
