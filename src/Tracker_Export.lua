@@ -96,7 +96,6 @@ function ExportJSON()
 		local dayOut = {}
 		for day, dayData in sorted_pairs( itemData.totals ) do
 
-
 			table.insert( dayOut, string.format( '\t\t\t"%s": {\n\t\t\t\t"start": %s', day, dayData.start ) )
 			table.insert( dayOut, string.format( '\t\t\t\t"min": %s', dayData.min ) )
 			table.insert( dayOut, string.format( '\t\t\t\t"max": %s', dayData.max ) )
@@ -105,6 +104,13 @@ function ExportJSON()
 		table.insert( totalsOut, string.format( '%s', table.concat( dayOut, ",\n" ) ) )
 
 		table.insert( itemOut, string.format( '\t\t"totals": {\n%s}', table.concat( totalsOut, ",\n" ) ) )
+
+		local itemPlayers = {}
+		for player, count in sorted_pairs( itemData.players ) do
+			table.insert( itemPlayers, string.format( '\t\t\t"%s": %s', player, count ) )
+		end
+
+		table.insert( itemOut, string.format( '\t\t"players": {\n%s}', table.concat( itemPlayers, ",\n" ) ) )
 
 
 		table.insert( outTable, table.concat( itemOut, ",\n" ).. "}" )
