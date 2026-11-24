@@ -56,7 +56,30 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="item in items | orderBy:sortType:sortReverse | filter:itemFilter">
-								<td>{{item.id}}</td>
+								<td style="position:relative;">
+									<span ng-mouseenter="item.showPlayers = true"
+										  ng-mouseleave="item.showPlayers = false"
+										  style="cursor:help;">
+										{{item.id}}
+									</span>
+									<div ng-show="item.showPlayers" class="player-popup">
+										<table class="table table-condensed table-bordered" style="margin-bottom: 0;">
+											<thead>
+												<tr>
+													<th>player</th>
+													<th>num</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="(name, count) in item.players">
+													<td>{{name}}</td>
+													<td>{{count}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div> <!-- hover popup -->
+
+								</td>
 								<td><a href ng-click="itemOnClick(item.id)">{{item.name}}</a>
 									<i class='fa fa-flask' ng-show='item.uses'></i>
 								</td>
